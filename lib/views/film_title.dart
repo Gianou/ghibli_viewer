@@ -10,6 +10,7 @@ class FilmTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 200,
+      height: 320,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red, width: 2),
