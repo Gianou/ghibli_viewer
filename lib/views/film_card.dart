@@ -3,21 +3,37 @@ import 'package:ghibli_viewer/models.dart/film_model.dart';
 import 'package:ghibli_viewer/views/film_details.dart';
 import 'package:ghibli_viewer/views/film_title.dart';
 
-class FilmCard extends StatelessWidget {
+class FilmCard extends StatefulWidget {
   final Film film;
   const FilmCard({super.key, required this.film});
 
   @override
+  State<FilmCard> createState() => _FilmCardState();
+}
+
+class _FilmCardState extends State<FilmCard> {
+  bool showDetails = true;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 320,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.red, width: 2),
-        borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          showDetails = !showDetails;
+        });
+      },
+      child: Container(
+        width: 200,
+        height: 320,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: showDetails
+            ? FilmDetails(film: widget.film)
+            : FilmTitle(film: widget.film),
       ),
-      child: FilmTitle(film: film),
     );
   }
 }
