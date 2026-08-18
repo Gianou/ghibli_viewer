@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghibli_viewer/models.dart/film_model.dart';
-import 'package:ghibli_viewer/views/film_details.dart';
-import 'package:ghibli_viewer/views/film_title.dart';
+import 'package:ghibli_viewer/views/film_card.dart';
 
 void main() {
   runApp(const MainApp());
@@ -43,10 +42,7 @@ class MainApp extends StatelessWidget {
         body: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FilmTitle(film: mockMovie),
-              FilmDetails(film: mockMovie),
-            ],
+            children: [FilmCard(film: mockMovie)],
           ),
         ),
       ),
