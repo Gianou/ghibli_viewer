@@ -12,7 +12,7 @@ class FilmCard extends StatefulWidget {
 }
 
 class _FilmCardState extends State<FilmCard> {
-  bool showDetails = true;
+  bool showDetails = false;
 
   @override
   Widget build(BuildContext context) {
