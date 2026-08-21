@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ghibli_viewer/models.dart/film_model.dart';
+import 'package:ghibli_viewer/models/film_model.dart';
 
 class FilmTitle extends StatelessWidget {
   final Film film;
