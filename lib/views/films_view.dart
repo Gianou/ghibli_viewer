@@ -10,8 +10,28 @@ class FilmsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FilmsViewModel>(
       builder: (context, viewModel, child) {
-        if (viewModel.filmsToDispaly != null) {
-          final films = viewModel.filmsToDispaly;
+        if (viewModel.errorMessage != null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  viewModel.errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () => viewModel.fetchFilms(),
+                  child: const Text("Retry"),
+                ),
+              ],
+            ),
+          );
+        } else if (viewModel.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (viewModel.filmsToDisplay != null) {
+          final films = viewModel.filmsToDisplay;
 
           return ListView.builder(
             itemCount: films?.length,
@@ -22,12 +42,10 @@ class FilmsView extends StatelessWidget {
               );
             },
           );
-        } else if (viewModel.isLoading) {
-          return CircularProgressIndicator();
         }
         return TextButton(
           onPressed: () => viewModel.fetchFilms(),
-          child: Text("Fetch a Movie"),
+          child: const Text("Fetch Movies"),
         );
       },
     );

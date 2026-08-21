@@ -4,27 +4,24 @@ import 'package:ghibli_viewer/models/ghibli_api_service.dart';
 
 class FilmsViewModel extends ChangeNotifier {
   GhibliApiService service;
-  Film? filmToDispaly;
-  List<Film>? filmsToDispaly;
+  List<Film>? filmsToDisplay;
   bool isLoading = false;
+  String? errorMessage;
 
   FilmsViewModel(this.service);
 
-  Future<void> fetchFilm() async {
-    isLoading = true;
-    notifyListeners();
-
-    filmToDispaly = await service.getFilm();
-    isLoading = false;
-    notifyListeners();
-  }
-
   Future<void> fetchFilms() async {
     isLoading = true;
+    errorMessage = null;
     notifyListeners();
 
-    filmsToDispaly = await service.getFilms();
-    isLoading = false;
-    notifyListeners();
+    try {
+      filmsToDisplay = await service.getFilms();
+    } catch (e) {
+      errorMessage = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }
