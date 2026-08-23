@@ -4,7 +4,7 @@ import 'package:ghibli_viewer/models/ghibli_api_service.dart';
 
 class FilmsViewModel extends ChangeNotifier {
   GhibliApiService service;
-  List<Film>? filmsToDisplay;
+  List<Film>? films;
   bool isLoading = false;
   String? errorMessage;
 
@@ -16,7 +16,7 @@ class FilmsViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      filmsToDisplay = await service.getFilms();
+      films = await service.getFilms();
     } catch (e) {
       errorMessage = e.toString();
     } finally {

@@ -5,16 +5,7 @@ import 'package:ghibli_viewer/views/films_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) {
-        final service = GhibliApiService();
-
-        return FilmsViewModel(service);
-      },
-      child: const MainApp(),
-    ),
-  );
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -22,16 +13,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Ghibli Viewer",
+    return ChangeNotifierProvider(
+      create: (context) {
+        final service = GhibliApiService();
 
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          title: const Text('Ghibli Viewer'),
+        return FilmsViewModel(service);
+      },
+      child: MaterialApp(
+        title: "Ghibli Viewer",
+
+        home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            title: const Text('Ghibli Viewer'),
+          ),
+          body: Center(child: FilmsView()),
         ),
-        body: Center(child: FilmsView()),
       ),
     );
   }

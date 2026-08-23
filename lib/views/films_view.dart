@@ -30,17 +30,20 @@ class FilmsView extends StatelessWidget {
           );
         } else if (viewModel.isLoading) {
           return const CircularProgressIndicator();
-        } else if (viewModel.filmsToDisplay != null) {
-          final films = viewModel.filmsToDisplay;
+        } else if (viewModel.films != null) {
+          final films = viewModel.films!;
 
-          return ListView.builder(
-            itemCount: films?.length,
-            itemBuilder: (context, index) {
-              final film = films![index];
-              return Center(
-                child: SizedBox(width: 200, child: FilmCard(film: film)),
-              );
-            },
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 16, // horizontal spacing
+              runSpacing: 16, // vertical spacing between rows
+              children: [
+                for (final film in films)
+                  SizedBox(width: 200, child: FilmCard(film: film)),
+              ],
+            ),
           );
         }
         return TextButton(
