@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghibli_viewer/viewmodels/films_view_model.dart';
-import 'package:ghibli_viewer/views/film_card.dart';
+import 'package:ghibli_viewer/views/films/film_card.dart';
 import 'package:provider/provider.dart';
 
 // View: Displays UI and reacts to ViewModel state changes.
