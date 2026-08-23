@@ -43,8 +43,7 @@ class FilmsView extends StatelessWidget {
               runSpacing: 16,
               children: [
                 for (final film in films)
-                  if (film.title == "Kiki's Delivery Service")
-                    SizedBox(width: 200, child: FilmCard(film: film)),
+                  SizedBox(width: 200, child: FilmCard(film: film)),
               ],
             ),
           );
