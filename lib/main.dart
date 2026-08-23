@@ -18,9 +18,11 @@ class MainApp extends StatelessWidget {
     // ChangeNotifierProvider: Instantiates ViewModel & Service here to inject them into the widget tree.
     return ChangeNotifierProvider(
       create: (context) => FilmsViewModel(GhibliApiService()),
+
       // MaterialApp: Provides Material Design structure, routing, and theme configuration.
       child: MaterialApp(
         title: "Ghibli Viewer",
+
         // home: The initial View (Screen) displayed on app launch.
         home: FilmsView(),
       ),

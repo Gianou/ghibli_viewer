@@ -12,6 +12,48 @@ class FilmsView extends StatelessWidget {
     // Consumer: Rebuilds this section whenever FilmsViewModel notifies listeners of changes.
     return Consumer<FilmsViewModel>(
       builder: (context, viewModel, child) {
+        // Determine which widget to show based on state
+        Widget bodyContent;
+
+        if (viewModel.errorMessage != null) {
+          bodyContent = Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                viewModel.errorMessage!,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => viewModel.fetchFilms(),
+                child: const Text("Retry"),
+              ),
+            ],
+          );
+        } else if (viewModel.isLoading) {
+          bodyContent = const CircularProgressIndicator();
+        } else if (viewModel.films != null) {
+          final films = viewModel.films!;
+          bodyContent = SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                for (final film in films)
+                  SizedBox(width: 200, child: FilmCard(film: film)),
+              ],
+            ),
+          );
+        } else {
+          bodyContent = TextButton(
+            onPressed: () => viewModel.fetchFilms(),
+            child: const Text("Fetch Movies"),
+          );
+        }
+
         // Scaffold: Provides the standard Material Design layout structure for this screen.
         return Scaffold(
           appBar: AppBar(
@@ -19,57 +61,7 @@ class FilmsView extends StatelessWidget {
             foregroundColor: Colors.white,
             title: const Text('Ghibli Viewer'),
           ),
-          body: Center(
-            // Builder: Creates a new context to access viewModel state inside the body.
-            child: Builder(
-              builder: (context) {
-                // UI Logic: Renders different widgets based on current ViewModel state.
-                if (viewModel.errorMessage != null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          viewModel.errorMessage!,
-                          style: const TextStyle(color: Colors.red),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        TextButton(
-                          onPressed: () => viewModel.fetchFilms(),
-                          child: const Text("Retry"),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (viewModel.isLoading) {
-                  return const CircularProgressIndicator();
-                } else if (viewModel.films != null) {
-                  final films = viewModel.films!;
-
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 8,
-                    ),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: [
-                        for (final film in films)
-                          SizedBox(width: 200, child: FilmCard(film: film)),
-                      ],
-                    ),
-                  );
-                }
-                return TextButton(
-                  onPressed: () => viewModel.fetchFilms(),
-                  child: const Text("Fetch Movies"),
-                );
-              },
-            ),
-          ),
+          body: Center(child: bodyContent),
         );
       },
     );
