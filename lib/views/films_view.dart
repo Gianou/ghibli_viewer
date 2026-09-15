@@ -35,17 +35,11 @@ class FilmsView extends StatelessWidget {
           bodyContent = const CircularProgressIndicator();
         } else if (viewModel.films != null) {
           final films = viewModel.films!;
-          bodyContent = SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                for (final film in films)
-                  SizedBox(width: 200, child: FilmCard(film: film)),
-              ],
-            ),
+          bodyContent = ListView.builder(
+            itemCount: films.length,
+            itemBuilder: (context, index) {
+              return Center(child: FilmCard(film: films[index]));
+            },
           );
         } else {
           bodyContent = TextButton(
